@@ -22,7 +22,7 @@ function App() {
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <div id="results-container" ref={(node) => node}>
+        <div id="results-container">
           {data &&
             data.hasOwnProperty("items") &&
             data.items.map((item, index) => (
