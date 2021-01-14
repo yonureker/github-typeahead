@@ -6,7 +6,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 function App() {
   const [query, setQuery] = useState("");
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     query.length >= 3 ? `https://api.github.com/search/users?q=${query}` : null,
     fetcher
   );
