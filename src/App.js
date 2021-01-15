@@ -11,8 +11,6 @@ function App() {
     setQuery(query);
   };
 
-  console.log(process.env.REACT_APP_TOKEN);
-
   const fetchUserData = (query) => {
     fetch(`https://api.github.com/search/users?q=${query}`, {
       headers: {
