@@ -1,41 +1,43 @@
 import "./App.css";
-import useSWR from "swr";
-import React, { useState } from "react";
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import React, { useState, useEffect } from "react";
+import SearchBar from "./components/SearchBar";
+import Results from "./components/Results";
+import token from "./config/token";
 
 function App() {
   const [query, setQuery] = useState("");
-  const { data } = useSWR(
-    query.length >= 3 ? `https://api.github.com/search/users?q=${query}` : null,
-    fetcher
-  );
+  const [userData, setUserData] = useState({});
+
+  const onQueryChange = (query) => {
+    setQuery(query);
+  };
+
+  const fetchUserData = (query) => {
+    fetch(`https://api.github.com/search/users?q=${query}`, {
+      headers: {
+        authorization: "token " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => setUserData(responseJson))
+      .catch((error) => console.log(error));
+  };
+
+  // fetching data when query length is 3 or more
+  // clears userData if query length falls under 3.
+  useEffect(() => {
+    if (query.length > 2) {
+      fetchUserData(query);
+    } else {
+      setUserData({});
+    }
+  }, [query]);
 
   return (
     <div className="App">
       <div className="container">
-        <div id="search-bar">
-          <input
-            type="search"
-            placeholder="Enter username"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-        <div id="results-container">
-          {data &&
-            data.hasOwnProperty("items") &&
-            data.items.map((item, index) => (
-              <div id="results-item" key={index}>
-                <div id="profile-photo">
-                  <img src={`${item.avatar_url}`} alt="profile" />
-                </div>
-                <div id="username">
-                  <a href={`${item.html_url}`}>{item.login}</a>
-                </div>
-              </div>
-            ))}
-        </div>
+        <SearchBar onQueryChange={onQueryChange} />
+        <Results userData={userData} />
       </div>
     </div>
   );
