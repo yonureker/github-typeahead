@@ -15,7 +15,7 @@ Demo is located here: [Link](https://github-typeahead-4gf3nvox8.vercel.app/)
 
 * The endpoint for user data is (https://api.github.com/search/users?q=${query}). An authorization token is needed to make unlimited requests to the API. Otherwise, you will get an error after a few requests.
 
-```
+```javascript
 const fetchUserData = (query) => {
     fetch(`https://api.github.com/search/users?q=${query}`, {
       headers: {
@@ -31,7 +31,7 @@ const fetchUserData = (query) => {
 
 * I added a condition under useEffect; so users need to type more than 2 characters before the request is made to the API.
 
-```
+```javascript
 useEffect(() => {
     if (query.length > 2) {
       fetchUserData(query);
