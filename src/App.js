@@ -2,7 +2,6 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import Results from "./components/Results";
-import token from "./config/token";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -15,7 +14,7 @@ function App() {
   const fetchUserData = (query) => {
     fetch(`https://api.github.com/search/users?q=${query}`, {
       headers: {
-        authorization: "token " + token,
+        authorization: "token " + process.env.REACT_APP_TOKEN,
       },
     })
       .then((response) => response.json())
