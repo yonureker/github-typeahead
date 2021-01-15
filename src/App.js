@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import Results from "./components/Results";
 
-function App() {
+export default function App() {
   const [query, setQuery] = useState("");
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({items: []});
 
   const onQueryChange = (query) => {
     setQuery(query);
@@ -14,6 +14,7 @@ function App() {
   const fetchUserData = (query) => {
     fetch(`https://api.github.com/search/users?q=${query}`, {
       headers: {
+        // Github authentication is needed for unlimited requests
         authorization: "token " + process.env.REACT_APP_TOKEN,
       },
     })
@@ -28,7 +29,7 @@ function App() {
     if (query.length > 2) {
       fetchUserData(query);
     } else {
-      setUserData({});
+      setUserData({items: []});
     }
   }, [query]);
 
@@ -41,5 +42,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
