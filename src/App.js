@@ -14,7 +14,7 @@ function App() {
   const fetchUserData = (query) => {
     fetch(`https://api.github.com/search/users?q=${query}`, {
       headers: {
-        authorization: "token" + process.env.REACT_APP_TOKEN,
+        authorization: "token " + process.env.REACT_APP_TOKEN,
       },
     })
       .then((response) => response.json())
