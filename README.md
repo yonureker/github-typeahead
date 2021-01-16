@@ -13,13 +13,15 @@ Demo is located here: [Link](https://github-typeahead-4gf3nvox8.vercel.app/)
 
 ## Fetching User Data
 
-* The endpoint for user data is (https://api.github.com/search/users?q=${query}). An authorization token is needed to make unlimited requests to the API. Otherwise, you will get an error after a few requests.
+* The endpoint for user data is (https://api.github.com/search/users?q=${query}). An authorization token is needed to increase the rate limit of the API. Otherwise, you will get an error after a few requests.
 
 ```javascript
 const fetchUserData = (query) => {
-    fetch(`https://api.github.com/search/users?q=${query}`, {
+    fetch(`https://api.github.com/search/users?q=`, {
       headers: {
-        // Github authentication is needed for unlimited requests
+        // github authentication is needed for increased rate limit
+        // https://docs.github.com/en/rest/reference/search#rate-limit
+        // save token as an environment variable to limit exposure.
         authorization: "token " + process.env.REACT_APP_TOKEN,
       },
     })
@@ -41,7 +43,9 @@ useEffect(() => {
   }, [query]);
 ```
 
+## Further improvements
 
+* 
 
 
 

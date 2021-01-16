@@ -1,0 +1,11 @@
+#error-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+
+#error-item {
+  width: 100%
+}
