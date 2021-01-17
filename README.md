@@ -16,18 +16,27 @@ Demo is located here: [Link](https://github-typeahead-4gf3nvox8.vercel.app/)
 * The endpoint for user data is (https://api.github.com/search/users?q=${query}). An authorization token is needed to increase the rate limit of the API. Otherwise, you will get an error after a few requests.
 
 ```javascript
-const fetchUserData = (query) => {
-    fetch(`https://api.github.com/search/users?q=`, {
-      headers: {
-        // github authentication is needed for increased rate limit
-        // https://docs.github.com/en/rest/reference/search#rate-limit
-        // save token as an environment variable to limit exposure.
-        authorization: "token " + process.env.REACT_APP_TOKEN,
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => setUserData(responseJson))
-      .catch((error) => console.log(error));
+const fetchUserData = async (query) => {
+    try {
+      const response = await fetch(
+        `https://api.github.com/search/users?q=${query}`,
+        {
+          headers: {
+            // Github authentication is needed for unlimited requests
+            authorization: "token " + process.env.REACT_APP_TOKEN,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const res = await response.json();
+        setUserData(res);
+      } else {
+        throw new Error("Network response was not ok.");
+      }
+    } catch (error) {
+      setError(error);
+    }
   };
 ```
 
@@ -43,9 +52,7 @@ useEffect(() => {
   }, [query]);
 ```
 
-## Further improvements
+## Further improvements for production grade code
 
-* 
-
-
-
+* Use a state container like Redux to prevent unnecessary re-renders.
+* Add unit tests (Jest?) 

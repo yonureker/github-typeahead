@@ -34,6 +34,10 @@ export default function App() {
     } catch (error) {
       setError(error);
     }
+
+    // .then((response) => response.json())
+    // .then((responseJson) => setUserData(responseJson))
+    // .catch((error) => setError(error.message))
   };
 
   // fetching data when query length is 3 or more
